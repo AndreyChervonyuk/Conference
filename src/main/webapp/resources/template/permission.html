@@ -1,0 +1,53 @@
+<div class="tab-pane fade" id="event-permission">
+
+    <form id="change-permission">
+        <div class="form-group">
+            <div id="permissions" class="col-md-11 col-md-offset-1"></div>
+        </div>
+    </form>
+
+    <script id="permissionInfoTmpl" type="text/x-jquery-tmpl">
+        {%each permissions %}
+            <tr>
+                <td  name={%= name %}>{%= permission.description %}</td>
+                <td class="permission-group" id={%= permission.name %}>{%= userGroup.name %}</td>
+                {%if p.editable %}
+                <td>
+                    <span class="glyphicon glyphicon-plus-sign update-permission" onclick="permissionUtil.update('{%= permission.id %}')" style="display: none"></span>
+                    <span class="glyphicon glyphicon-edit edit-permission" onclick="permissionUtil.edit(this)"></span>
+                </td>
+                {%/if%}
+            </tr>
+        {%/each%}
+    </script>
+
+    <script id="permissionTmpl" type="text/x-jquery-tmpl">
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="permission-{%= category %}-icon"  alt="">
+                    </a>
+
+                    <div class="media-body">
+                        <div class="pull-left meta">
+                            <div class="title h5">
+                                <h3>{%= category %}</h3>
+                                <table class="table">
+
+                                    {%tmpl({permissions : permissions, p : p}) permissionInfoTmpl %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </script>
+
+    <script id="groupsTmpl" type="text/x-jquery-tmpl">
+        <div class="groups">
+            <select id="new-member-group"  class="form-control">
+                {%each userGroup %}
+                    <option value={%= id %}>{%= name %}</name={%= name %}option>
+                {%/each%}
+            </select>
+        </div>
+    </script>
+</div>

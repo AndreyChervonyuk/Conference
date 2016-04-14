@@ -1,0 +1,22 @@
+<div class="tab-pane fade" id="event-documents">
+
+    <div id="event-documents-list">
+
+    </div>
+
+    <script id="event-document-Tmpl" type="text/x-jquery-tmpl">
+        {%each documents %}
+            <div class="col-md-2">
+                <a href="#">
+                    <img class="{%= file.getExtension(name) %}-file-icon" alt="">
+                </a>
+                <h5>
+                    {%= name %}
+                    <a href="/files/{%= id %}">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </a>
+                </h5>
+            </div>
+       {%/each%}
+    </script>
+</div>

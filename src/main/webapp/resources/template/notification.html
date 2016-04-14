@@ -1,0 +1,286 @@
+
+<div class="tab-pane fade" id="notification">
+    <p>
+        <a class="btn btn-primary" role="button" data-toggle="collapse" href="#create-notification" aria-expanded="false">
+            Create notification
+        </a>
+    </p>
+
+
+    <div class="collapse" id="create-notification">
+        <div class="well">
+            <h4>Create Notification:</h4>
+            <form role="form" id="notification-form">
+                <div class="form-group">
+                    <p>
+                        <label for="subject" class="control-label">Subject</label>
+                        <input type="text" class="form-control" name="subject" id="subject">
+                        <label for="text" class="control-label">Text</label>
+                        <textarea class="form-control" rows="5" name="text" id="text"></textarea>
+                    </p>
+
+                    <p>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#documentsModal" id="user-documents-loader" onclick="file.loadUserFiles()">Attach file</button>
+                    </p>
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">File attachment</div>
+
+                        <div class="panel-body">
+                            <div class="row">
+                                <div id="fileAttachmentList"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <p>
+                    <button class="btn btn-primary" data-toggle="collapse" data-dismiss="#notification-test" href="#send-mail" onclick="memberUtil.getMembersForLetter()">
+                        Email
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+
+                    <button class="btn btn-primary" data-toggle="collapse" data-dismiss="send-mail" href="#notification-test" onclick="memberUtil.getMembersForLetter()">
+                        Notification
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                </p>
+
+                <div class="collapse" id="send-mail">
+                    <div class="well">
+
+                        <table class="table">
+                            <thead>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>
+                                    <input type="checkbox" id="select-all-members" onclick="memberUtil.selectAllMembers()">
+                                </th>
+                            </thead>
+                            <tbody id="membersEmail">
+
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-primary" onclick="notificationUtil.sendLetter()">Send</button>
+                    </div>
+                </div>
+
+                <div class="collapse" id="notification-test">
+                    <div class="well">
+                        <p>
+                            <label for="send-mail">Send email to all members</label>
+                            <input type="checkbox" name="sendMail">
+                        </p>
+                        <button type="button" class="btn btn-primary" onclick="notificationUtil.createNotification()">Create notification</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="notificationList"></div>
+
+    <div class="modal fade" id="documentsModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">My documents</h4>
+                </div>
+                <a href="/files/upload" class="btn btn-default">Upload new file</a>
+                <div class="modal-body" id="userDocumentsList">
+                </div>
+                <button type="button" class="btn btn-primary" id="load-more-documents">Load more</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script id="notificationTmpl" type="text/x-jquery-tmpl">
+        {%each notification %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>
+                        {%= header %}
+                    </h4>
+
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" src="/resources/image/default-avatar-icon.png" alt="">
+                        </a>
+
+                        <div class="media-body">
+                            <div class="pull-left meta">
+                                <div class="title h5">
+                                    Posted by <a href="#" class="post-user-name"><span class="fn">{%= author.name %} {%= author.surname %}</span></a>
+                                </div>
+                                <h6 class="text-muted time">
+                                    <span class="post-timestamp">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                        <span>{%= date %}</span>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" data-toggle="collapse"  href="#notification-details-{%= id %}" onclick="notificationUtil.loadNotification('{%= id %}')">
+                        Read More
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+
+                    <div id="notification-details-{%= id %}" class="panel-collapse collapse"></div>
+                </div>
+            </div>
+        {%/each%}
+    </script>
+
+    <script id="userDocumentsTmpl" type="text/x-jquery-tmpl">
+        <tr>
+            <td><img class="file-icon" id="file-icon" alt=""/></td>
+            <td class="file-name">
+                {%= name%}
+                <span class="glyphicon glyphicon-plus-sign attach-file-btn" id="file-id-{%= id %}" ></span>
+            </td>
+        </tr>
+    </script>
+
+    <script id="notificationDetailsTmpl" type="text/x-jquery-tmpl">
+        <hr>
+        <p>
+           <h3> {%= notification.text %} </h3>
+        </p>
+        <hr>
+
+        {%if !$.isEmptyObject(notification.documents) %}
+
+            <div class="panel panel-info">
+                <div class="panel-heading">File attachment</div>
+                <div class="panel-body">
+                    <div class="row">
+                        {%tmpl({documents : notification.documents}) notificationDocumentsTmpl %}
+                    </div>
+                </div>
+            </div>
+
+        {%/if%}
+
+        {%if permission.viewComments%}
+            <div class="panel panel-info ">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#notificationId-{%= notification.id%}" onclick="notificationUtil.loadComments('{%= notification.id%}')">
+                            <span class="glyphicon glyphicon-menu-down">
+                                Comments
+                            </span>
+                            <span class="glyphicon glyphicon-comment"></span>
+                        </a>
+                    </h4>
+                </div>
+
+                <div id="notificationId-{%= notification.id%}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div id="comments-list-{%= notification.id %}"></div>
+                            {%if permission.leaveComments%}
+                                {%tmpl({notificationId : notification.id}) commentsTmpl %}
+                            {%/if%}
+                        </div>
+
+                    <div class="comments-footer" data-toggle="collapse" data-parent="#accordion" href="#notificationId-{%= notification.id%}">
+                        <span class="glyphicon glyphicon-menu-up"></span>
+                    </div>
+                </div>
+            </div>
+        {%/if%}
+    </script>
+
+
+    <script id="fileAttachmentTmpl" type="text/x-jquery-tmpl">
+        <div class="col-md-2" id="file-attachment-{%= id %}">
+            <span class="glyphicon glyphicon-remove" onclick="notificationUtil.detachFile('{%= id %}')"></span>
+            <a href="#">
+                <img class="{%= file.getExtension(name) %}-file-icon"  alt="">
+            </a>
+            <h5>
+                {%= name %}
+            </h5>
+            <input type="hidden" name="fileAttachment[]" value="{%= id %}">
+
+        </div>
+    </script>
+
+    <script id="notificationDocumentsTmpl" type="text/x-jquery-tmpl">
+        {%each documents %}
+            <div class="col-md-2">
+                <a href="#">
+                    <img id="image" class="{%= file.getExtension(document.name) %}-file-icon" alt="">
+                </a>
+                <h5>
+                    {%= document.name %}
+                    <a href="/files/{%= document.id %}">
+                    <a href="/files/{%= document.id %}">
+                        <span class="glyphicon glyphicon-download-alt"></span>
+                    </a>
+                </h5>
+            </div>
+        {%/each%}
+    </script>
+
+    <script id="notificationCommentsTmpl" type="text/x-jquery-tmpl">
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="/resources/image/default-avatar-icon.png" alt="">
+            </a>
+            <div class="media-body">
+                <h4 class="media-heading">{%= comments.author.name %}  {%= comments.author.surname %}
+                    <small>{%= comments.date %}</small>
+                </h4>
+
+                {%= comments.text %}
+
+                {%if canReply %}
+                    <div>
+                        <p>
+                        <a href="#">
+                            <span class="glyphicon glyphicon-comment">reply</span>
+                         </a>
+                         </p>
+                    </div>
+                {%/if%}
+
+                {%if !$.isEmptyObject(comments.replies) %}
+                    {%each comments.replies %}
+                        {%tmpl({comments : this, canReply : false}) notificationCommentsTmpl %}
+                    {%/each%}
+                {%/if%}
+            </div>
+        </div>
+    </script>
+
+
+    <script id="commentsTmpl" type="text/x-jquery-tmpl">
+        <div class="well comments-form">
+            <h4>Leave a Comment:</h4>
+            <form role="form" id="comment-form-{%= notificationId %}">
+                <div class="form-group">
+                    <input type="hidden" value="{%= notificationId %}" name="notificationId">
+                    <textarea class="form-control" rows="3" name="text"></textarea>
+                </div>
+                <button type='button' class="btn btn-primary" id="comment-btn" onclick="notificationUtil.addComment('{%= notificationId %}')">Submit</button>
+            </form>
+        </div>
+    </script>
+
+    <script id="membersLetterTmpl" type="text/x-jquery-tmpl">
+        {%each members %}
+            <tr>
+                <td>{%= user.name %}</td>
+                <td>{%= user.surname %}</td>
+                <td><input type="checkbox" name=setTo[] value={%= user.email %}></td>
+            </tr>
+        {%/each%}
+    </script>
+
+</div>
