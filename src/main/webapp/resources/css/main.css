@@ -1,0 +1,207 @@
+body {
+    padding-top: 70px;
+    background-color: #e8e8e8;
+    margin-bottom: 60px;
+
+}
+
+footer {
+    background-color:  white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+hr {
+    border-top: 1px solid #ACB8F1;
+}
+
+#footer-text {
+    padding: 30px;
+    text-align: center
+}
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.test {
+    padding: 10px 10px 0;
+    border-bottom: 0;
+}
+
+.fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+}
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.tooltip-inner {
+    white-space:pre;
+    max-width:none;
+}
+.bg-success, .bg-danger{
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+/*
+	Panel
+*/
+
+.panel.panel-form {
+    border: 1px solid #e6e6e6;
+}
+
+.panel.panel-form,
+.panel.panel-form .panel-heading,
+.panel.panel-form .panel-footer {
+    -webkit-border-radius:	0;
+    -moz-border-radius:		0;
+    border-radius:			0;
+}
+
+.panel.panel-form .panel-heading {
+    text-align: center;
+    border-bottom: 7px solid #eee;
+    color: #d6f5ff;
+    background: #4fd0fb;
+}
+
+.panel.panel-form .panel-heading a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.panel.panel-form .panel-heading a:hover {
+    text-decoration: none;
+}
+
+.panel.panel-form .panel-heading p {
+    margin: 0;
+}
+
+.panel.panel-form .panel-heading .title {
+    position: relative;
+    margin: 0 0 10px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.panel.panel-form .panel-heading .title:before {
+    position: absolute;
+    content: '';
+    bottom: -8px;
+    left: 50%;
+    width: 30px;
+    height: 0;
+    margin-left: -15px;
+    border-bottom: 1px solid rgba(100%, 100%, 100%, 0.3);
+}
+
+.panel.panel-form .panel-body {
+    padding: 30px;
+    background: #fcfcfc;
+}
+
+.panel.panel-form .panel-footer {
+    border-top: 1px solid #e6e6e6;
+    color: #aaa;
+    background: #f6f6f6;
+}
+
+.required-field {
+ /   display: inline;
+    font-size: 18px;
+    line-height: 12px;
+    color: #f45858;
+}
+
+.alerts {
+    position: absolute;
+    top:50%;
+    left:50%;
+    width:300px;
+    height:200px;
+    margin:-100px 0 0 -150px;
+    right: 20px;
+}
+
+.alert{
+    display: none;
+}
+
+.comments-footer{
+    padding: 10px 15px;
+    background-color: #c3e1f1;
+    border-color: #bce8f1;
+}
+
+.comments-form {
+    margin-top: 20px;
+}
+
+.permission-Members-icon {
+    content: url("/resources/image/members-icon.png");
+}
+
+.permission-Notifications-icon {
+    content: url("/resources/image/notification-icon.png");
+}
+
+.permission-Documents-icon {
+    content: url("/resources/image/documents-icon.png");
+}
+
+.permission-Permissions-icon {
+    content: url("/resources/image/permissions-icon.png");
+}
+
+
+.doc-file-icon,
+.docx-file-icon {
+    content: url("/resources/image/word-doc-icon.png");
+}
+
+.xls-file-icon,
+.xlsx-file-icon {
+    content: url("/resources/image/excel-xls-icon.png");
+}
+
+.ppf-file-icon,
+.pptx-file-icon {
+    content: url("/resources/image/ppt-icon.png");
+}
+
+.pdf-file-icon {
+    content: url("/resources/image/pdf-icon.png");
+}
+
+.txt-file-icon {
+    content: url("/resources/image/txt-icon.png");
+}
+
+.rar-file-icon {
+    content: url("/resources/image/rar-icon.png");
+}
+
+.file-icon {
+    max-height: 64px;
+    max-width: 64px;
+}
+
+

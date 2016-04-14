@@ -1,0 +1,107 @@
+
+<div class="tab-pane fade" id="members">
+
+    <div class="panel-group" id="accordion">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                        <span>New request</span>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <table class="table table-striped" id="user-request-table">
+                        <thead>
+                        <tr>
+                            <th>First name</th>
+                            <th>Last name</th>
+                            <th>Email</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody id="user-request">
+
+                        </tbody>
+                    </table>
+
+                    <script id="user-request-Tmpl" type="text/x-jquery-tmpl">
+                        <tr>
+                            <td>{%= user.name %}</td>
+                            <td>{%= user.surname %}</td>
+                            <td>{%= user.email %}</td>
+                            <td>
+                                <span class="glyphicon glyphicon-plus-sign" onclick="memberUtil.addMember(this, '{%= user.email %}')"></span>
+                                <span class="glyphicon glyphicon-remove-circle remove-member-request" onclick="memberUtil.removeMember(this, '{%= user.email %}')"></span>
+                            </td>
+                        </tr>
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="member-list">Members</a>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <table class="table table-striped" id="member-table">
+                        <thead>
+                            <tr>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>Email</th>
+                                <th>Group</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="membersList">
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script id="editPanel"  type="text/x-jquery-tmpl">
+      <td>
+        <span class="glyphicon glyphicon-plus-sign update-member" onclick="memberUtil.update(this, '{%= email %}')" style="display: none"></span>
+        <span class="glyphicon glyphicon-edit edit-member" onclick="memberUtil.editMember(this, '{%= email %}')"></span>
+        <span class="glyphicon glyphicon-remove-circle" onclick="memberUtil.removeMember(this, '{%= email %}')"></span>
+      </td>
+    </script>
+
+    <script id="groupsTmpl" type="text/x-jquery-tmpl">
+            <div class="groups">
+                    <select id="new-member-group" class="form-control">
+                        {%each userGroup %}
+                            <option value={%= id %}>{%= name %}</option>
+                        {%/each%}
+                </select>
+            </div>
+    </script>
+
+
+
+
+    <script id="membersTmpl" type="text/x-jquery-tmpl">
+        {%each members %}
+            <tr id={%= user.email %}>
+                <td>{%= user.name %}</td>
+                <td>{%= user.surname %}</td>
+                <td>{%= user.email %}</td>
+                <td class="memberGroup">{%= userGroup.name %}</td>
+                {%if permission.editable %}
+                    {%tmpl({email : user.email}) editPanel %}
+                {%/if%}
+            </tr>
+        {%/each%}
+    </script>
