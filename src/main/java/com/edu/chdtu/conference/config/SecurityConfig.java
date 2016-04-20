@@ -1,6 +1,6 @@
 package com.edu.chdtu.conference.config;
 
-import com.edu.chdtu.conference.service.security.PermissionEvaluatorImpl;
+import com.edu.chdtu.conference.security.PermissionEvaluatorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
@@ -29,8 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		//auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-		auth.userDetailsService(userDetailsService);
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package com.edu.chdtu.conference.dao.impl;
 import com.edu.chdtu.conference.dao.EventPermissionDao;
 import com.edu.chdtu.conference.dao.core.GenericDaoImpl;
 import com.edu.chdtu.conference.model.EventPermission;
-import com.edu.chdtu.conference.model.dto.PermissionDto;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 

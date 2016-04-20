@@ -2,7 +2,7 @@ package com.edu.chdtu.conference.service;
 
 
 import com.edu.chdtu.conference.model.Member;
-import com.edu.chdtu.conference.model.dto.MemberDto;
+import com.edu.chdtu.conference.dto.MemberDto;
 import com.edu.chdtu.conference.service.core.GenericService;
 
 public interface MemberService extends GenericService<Member, Integer> {

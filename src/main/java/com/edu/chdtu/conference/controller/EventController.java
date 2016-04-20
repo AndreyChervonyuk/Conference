@@ -1,7 +1,7 @@
 package com.edu.chdtu.conference.controller;
 
 import com.edu.chdtu.conference.model.Event;
-import com.edu.chdtu.conference.model.dto.EventDto;
+import com.edu.chdtu.conference.dto.EventDto;
 import com.edu.chdtu.conference.model.enums.Status;
 import com.edu.chdtu.conference.service.EventService;
 import com.edu.chdtu.conference.service.MemberService;
@@ -21,8 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/events")
 public class EventController {
 
-    final static Logger logger = LoggerFactory.getLogger(EventController.class);
-
     @Autowired
     EventService eventService;
 
@@ -41,7 +39,7 @@ public class EventController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getEventPage(@PathVariable("id") Integer id,
-                                 ModelAndView model) {
+                                     ModelAndView model) {
         model.addObject("currentEventId", id);
         model.addObject("event", eventService.findById(id));
         model.addObject("userGroup", userGroupService.getUserGroup(id, SecurityContextHolder.getContext().getAuthentication()));

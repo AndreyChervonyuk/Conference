@@ -7,15 +7,12 @@ import com.edu.chdtu.conference.dao.UserDao;
 import com.edu.chdtu.conference.dao.UserGroupsDao;
 import com.edu.chdtu.conference.dao.core.GenericDao;
 import com.edu.chdtu.conference.model.Member;
-import com.edu.chdtu.conference.model.UserGroup;
-import com.edu.chdtu.conference.model.dto.MemberDto;
+import com.edu.chdtu.conference.dto.MemberDto;
 import com.edu.chdtu.conference.model.enums.Group;
 import com.edu.chdtu.conference.service.MemberService;
 import com.edu.chdtu.conference.service.core.GenericServiceImpl;
 import com.edu.chdtu.conference.dao.EventDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,7 +48,7 @@ public class MemberServiceImpl extends GenericServiceImpl<Member, Integer> imple
         Member member = new Member(
                         userDao.findByEmail(email),
                         eventDao.findById(eventId),
-                        userGroupsDao.findBy("name", Group.WAIT.name())
+                        userGroupsDao.findBy("name", Group.NOT_CONFIRMED.name())
         );
         create(member);
         return member;

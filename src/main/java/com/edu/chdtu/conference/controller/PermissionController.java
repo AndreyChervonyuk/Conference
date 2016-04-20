@@ -1,15 +1,19 @@
 package com.edu.chdtu.conference.controller;
 
 
-import com.edu.chdtu.conference.model.dto.PermissionDto;
+import com.edu.chdtu.conference.dto.PermissionDto;
+import com.edu.chdtu.conference.dto.conterver.EntityToDto;
+import com.edu.chdtu.conference.model.DefaultEventPermission;
+import com.edu.chdtu.conference.model.EventPermission;
 import com.edu.chdtu.conference.service.EventPermissionService;
-import com.edu.chdtu.conference.model.dto.EventPermissionDto;
+import com.edu.chdtu.conference.dto.EventPermissionDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -22,25 +26,27 @@ public class PermissionController {
     @PreAuthorize("hasPermission(#eventId, 'view_permission')")
     @RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
     public EventPermissionDto getEventPermission(@PathVariable("eventId") Integer eventId) {
-        return permissionService.getEventPermissionDto(eventId);
+        List<EventPermission> permissions = permissionService.findAllBy("event.id", eventId);
+        return EntityToDto.getEventPermissionDto(permissions);
     }
 
 
     @PreAuthorize("hasPermission(#permissionDto.eventId, 'edit_permission')")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public void updatePermission(@RequestBody PermissionDto permissionDto) {
-        permissionService.updatePermission(permissionDto);
+        permissionService.update(permissionDto);
     }
 
     @RequestMapping(value = "/user/{eventId}", method = RequestMethod.GET)
     public EventPermissionDto getEvent(@PathVariable("eventId") Integer eventId) {
-        return permissionService.getUserPermissionDto(eventId, SecurityContextHolder.getContext().getAuthentication());
+        List<EventPermission> permissions = permissionService.getByUser(eventId, SecurityContextHolder.getContext().getAuthentication());
+        return EntityToDto.getEventPermissionDto(permissions);
     }
 
-    //TODO refactor
     @RequestMapping(value = "/default", method = RequestMethod.GET)
     public EventPermissionDto getDefault() throws IOException {
-       return permissionService.getEventPermissionDto(18);
+        List<DefaultEventPermission> permissions = permissionService.getDefault();
+        return EntityToDto.getDefaultEventPermissionDto(permissions);
     }
 
 }

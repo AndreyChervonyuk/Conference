@@ -1,17 +1,12 @@
-package com.edu.chdtu.conference.service.security;
+package com.edu.chdtu.conference.security;
 
-import com.edu.chdtu.conference.dao.EventPermissionDao;
 import com.edu.chdtu.conference.service.EventPermissionService;
-import com.edu.chdtu.conference.model.EventPermission;
-import com.edu.chdtu.conference.service.UserGroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service

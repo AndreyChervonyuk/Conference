@@ -16,9 +16,6 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li>
-          <a href="/events/all">All event</a>
-        </li>
-        <li>
           <a href="/events/create">Create new</a>
         </li>
         <li>
@@ -30,7 +27,7 @@
         <sec:authorize access="!hasRole('ROLE_ANONYMOUS')">
           <li>
             <%--<a id="user-name" href="/account/${sessionScope.user}">Welcome : ${sessionScope.user}</a>--%>
-            <a id="user-name" href="/account/${sessionScope.user}">Welcome : ${pageContext.request.userPrincipal.name}</a>
+            <a id="user-name" href="/user/account/${sessionScope.user}">Welcome : ${pageContext.request.userPrincipal.name}</a>
 
           </li>
           <li>

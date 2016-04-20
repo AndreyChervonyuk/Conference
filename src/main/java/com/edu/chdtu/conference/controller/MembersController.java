@@ -1,7 +1,7 @@
 package com.edu.chdtu.conference.controller;
 
 import com.edu.chdtu.conference.model.Member;
-import com.edu.chdtu.conference.model.dto.MemberDto;
+import com.edu.chdtu.conference.dto.MemberDto;
 import com.edu.chdtu.conference.model.enums.Group;
 import com.edu.chdtu.conference.service.MemberService;
 import org.slf4j.Logger;
@@ -28,7 +28,7 @@ public class MembersController {
         return memberService.findAllBy("event.id", eventId);
     }
 
-    @PreAuthorize("hasPermission(#eventId, 'remove_members')")
+    @PreAuthorize("hasPermission(#eventId, 'edit_members')")
     @RequestMapping(value = "/remove/{memberEmail}/{eventId}", method = RequestMethod.GET)
     public void remove(@PathVariable("eventId") Integer eventId,
                        @PathVariable("memberEmail") String memberEmail) {
@@ -47,7 +47,7 @@ public class MembersController {
         memberService.createMember(eventId, SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
-    @PreAuthorize("hasPermission(#eventId, 'add_members')")
+    @PreAuthorize("hasPermission(#eventId, 'edit_members')")
     @RequestMapping(value = "/add/{memberEmail}/{eventId}", method = RequestMethod.GET)
     public Member addMember(@PathVariable("eventId") Integer eventId,
                             @PathVariable("memberEmail") String email) {
@@ -58,7 +58,7 @@ public class MembersController {
     @RequestMapping(value = "/request/{eventId}", method = RequestMethod.GET)
     public Long requestCount(@PathVariable("eventId") Integer eventId) {
         List<Member> members = memberService.findAllBy("event.id", eventId);
-        return members.stream().filter(member -> member.getUserGroup().getName().equals(Group.WAIT.name())).count();
+        return members.stream().filter(member -> member.getUserGroup().getName().equals(Group.NOT_CONFIRMED.name())).count();
     }
 
     @PreAuthorize("hasPermission(#memberDto.eventId, 'edit_members')")

@@ -37,6 +37,11 @@ public class EventPermission {
         this.permission = permission;
     }
 
+    public EventPermission(Permission permission, UserGroup userGroup) {
+        this.permission = permission;
+        this.userGroup = userGroup;
+    }
+
     public Integer getId() {
         return id;
     }

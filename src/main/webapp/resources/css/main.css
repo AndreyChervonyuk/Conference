@@ -156,47 +156,47 @@ html {
 }
 
 .permission-Members-icon {
-    content: url("/resources/image/members-icon.png");
+    content: url("/resources/images/members-icon.png");
 }
 
 .permission-Notifications-icon {
-    content: url("/resources/image/notification-icon.png");
+    content: url("/resources/images/notification-icon.png");
 }
 
 .permission-Documents-icon {
-    content: url("/resources/image/documents-icon.png");
+    content: url("/resources/images/documents-icon.png");
 }
 
 .permission-Permissions-icon {
-    content: url("/resources/image/permissions-icon.png");
+    content: url("/resources/images/permissions-icon.png");
 }
 
 
 .doc-file-icon,
 .docx-file-icon {
-    content: url("/resources/image/word-doc-icon.png");
+    content: url("/resources/images/word-doc-icon.png");
 }
 
 .xls-file-icon,
 .xlsx-file-icon {
-    content: url("/resources/image/excel-xls-icon.png");
+    content: url("/resources/images/excel-xls-icon.png");
 }
 
 .ppf-file-icon,
 .pptx-file-icon {
-    content: url("/resources/image/ppt-icon.png");
+    content: url("/resources/images/ppt-icon.png");
 }
 
 .pdf-file-icon {
-    content: url("/resources/image/pdf-icon.png");
+    content: url("/resources/images/pdf-icon.png");
 }
 
 .txt-file-icon {
-    content: url("/resources/image/txt-icon.png");
+    content: url("/resources/images/txt-icon.png");
 }
 
 .rar-file-icon {
-    content: url("/resources/image/rar-icon.png");
+    content: url("/resources/images/rar-icon.png");
 }
 
 .file-icon {

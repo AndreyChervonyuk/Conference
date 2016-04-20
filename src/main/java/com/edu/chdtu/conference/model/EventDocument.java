@@ -22,6 +22,10 @@ public class EventDocument {
     public EventDocument() {
     }
 
+    public EventDocument(Document document) {
+        this.document = document;
+    }
+
     public EventDocument(Document document, Event event) {
         this.document = document;
         this.event = event;

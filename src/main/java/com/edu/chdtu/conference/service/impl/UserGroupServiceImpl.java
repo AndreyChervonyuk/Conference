@@ -56,8 +56,8 @@ public class UserGroupServiceImpl extends GenericServiceImpl<UserGroup, Integer>
                 groups.add("GROUP_ADMINS");
             case "MEMBERS":
                 groups.add("MEMBERS");
-            case "WAIT" :
-                groups.add("WAIT");
+            case "NOT_CONFIRMED" :
+                groups.add("NOT_CONFIRMED");
             case "NOT_MEMBERS":
                 groups.add("NOT_MEMBERS");
 

@@ -1,4 +1,4 @@
-package com.edu.chdtu.conference.model.dto;
+package com.edu.chdtu.conference.dto;
 
 
 public class MemberDto {

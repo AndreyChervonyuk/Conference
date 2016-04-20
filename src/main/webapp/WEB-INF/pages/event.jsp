@@ -3,10 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-    <jsp:include page="leyer/base.jsp"></jsp:include>
+    <jsp:include page="layer/base.jsp"></jsp:include>
 </head>
 <body onload="eventPageBuilder.init()">
-    <jsp:include page="leyer/header.jsp"></jsp:include>
+    <jsp:include page="layer/header.jsp"></jsp:include>
 
     <input type="hidden" value=${currentEventId} id="eventId"/>
 
@@ -38,7 +38,7 @@
                                                 <c:when test="${userGroup eq 'NOT_MEMBERS'}">
                                                     <button class="btn btn-success" onclick="memberUtil.join()">Join to group</button>
                                                 </c:when>
-                                                <c:when test="${userGroup eq 'WAIT'}">
+                                                <c:when test="${userGroup eq 'NOT_CONFIRMED'}">
                                                     Wait for confirmation
                                                 </c:when>
                                                 <c:otherwise>
@@ -113,6 +113,6 @@
         </li>
     </script>
 
-    <jsp:include page="leyer/footer.jsp"></jsp:include>
+    <jsp:include page="layer/footer.jsp"></jsp:include>
 </body>
 </html>

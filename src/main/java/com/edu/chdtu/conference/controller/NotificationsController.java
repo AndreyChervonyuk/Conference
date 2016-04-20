@@ -1,7 +1,8 @@
 package com.edu.chdtu.conference.controller;
 
 import com.edu.chdtu.conference.model.Notification;
-import com.edu.chdtu.conference.model.dto.NotificationDto;
+import com.edu.chdtu.conference.dto.NotificationDto;
+import com.edu.chdtu.conference.service.EventDocumentsService;
 import com.edu.chdtu.conference.service.EventPermissionService;
 import com.edu.chdtu.conference.service.EventService;
 import com.edu.chdtu.conference.service.NotificationService;
@@ -26,7 +27,6 @@ public class NotificationsController {
     @Autowired
     MailSenderService mailSenderService;
 
-
     @Autowired
     EventPermissionService eventPermissionService;
 
@@ -36,7 +36,6 @@ public class NotificationsController {
         return notificationService.findAllBy("event.id", eventId);
     }
 
-    // @PreAuthorize("hasPermission(#eventId, '')")
     @RequestMapping(value ="/{id}", method = RequestMethod.GET)
     public Notification getNotification(@PathVariable("id") Integer id) {
         return notificationService.findBy("id", id);

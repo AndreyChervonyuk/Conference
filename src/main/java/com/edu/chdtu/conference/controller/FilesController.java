@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,39 +20,26 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.AccessControlException;
 import java.security.Principal;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/files")
 public class FilesController {
 
-    private static String ROOT_DIRECTORY = "C:\\temp";
-    private static String USER_DIRECTORY = "\\user";
-
     @Autowired
     DocumentsService documentsService;
-
-    @Autowired
-    EventService eventService;
 
     @Autowired
     UserService userService;
 
     @Autowired
-    NotificationService notificationService;
-
-    @Autowired
-    ImageValidator imageValidator;
-
-    @Autowired
     ImageService imageService;
 
     @Autowired
-    FileUtil fileUtil;
+    EventDocumentsService eventDocumentsService;
 
     @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String uploadPage() {
@@ -67,16 +55,8 @@ public class FilesController {
 
     @RequestMapping(value = "/event/{eventId}", method = RequestMethod.GET)
     @ResponseBody
-    public Set<Document> getEventDocuments(@PathVariable("eventId") Integer eventId) {
-        List<Notification> notifications = notificationService.findAllBy("event.id", eventId);
-        Set<Document> documents = new HashSet<>();
-
-        for (Notification notification : notifications) {
-            for (NotificationDocument notificationDocument : notification.getDocuments()) {
-                documents.add(notificationDocument.getDocument());
-            }
-        }
-        return documents;
+    public List<EventDocument> getEventDocuments(@PathVariable("eventId") Integer eventId) {
+        return eventDocumentsService.findAllBy("event.id", eventId);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -84,25 +64,23 @@ public class FilesController {
     @ResponseBody
     public ResponseEntity<String> saveMultipleFile(@RequestParam("file") MultipartFile[] files,
                                                    Principal principal) throws IOException {
-
         String message = "";
         User user = userService.findByEmail(principal.getName());
-        fileUtil.createUserFolder(ROOT_DIRECTORY + USER_DIRECTORY + File.separator + user.getEmail() + File.separator);
+        FileUtil.createUserFolder(user.getEmail());
 
         for (MultipartFile file : files) {
-            String filePath = USER_DIRECTORY + File.separator + user.getEmail() + File.separator + file.getOriginalFilename();
-            String path = ROOT_DIRECTORY + USER_DIRECTORY + File.separator + user.getEmail() + File.separator + file.getOriginalFilename();
-            boolean isImage = imageValidator.validate(file.getOriginalFilename());
-
+            String relativePath = FileUtil.getRelativePath(user.getEmail(), file.getOriginalFilename());
+            String path = FileUtil.getAbsolutePath(user.getEmail(), file.getOriginalFilename());
+            boolean isImage = ImageValidator.validate(file.getOriginalFilename());
 
             try (BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(path))) {
                 buffStream.write(file.getBytes());
 
                 if (isImage) {
-                    Image image = new Image(file.getOriginalFilename(), filePath, new Date(), user);
+                    Image image = new Image(file.getOriginalFilename(), relativePath, new Date(), user);
                     imageService.create(image);
                 } else {
-                    Document documents = new Document(file.getOriginalFilename(), filePath, new Date(), user);
+                    Document documents = new Document(file.getOriginalFilename(), relativePath, new Date(), user);
                     documentsService.create(documents);
                 }
 
@@ -117,18 +95,30 @@ public class FilesController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<byte[]> downloadFile(@PathVariable("id") Integer id) throws IOException {
+    public ResponseEntity<byte[]> downloadFile(@PathVariable("id") Integer id,
+                                               @RequestParam(required = false) Integer eventId) throws IOException {
+        boolean canDownload;
+
+        if(eventId == null) {
+            canDownload = eventDocumentsService.canDownload(id);
+        } else {
+            canDownload = eventDocumentsService.canDownload(id, eventId);
+        }
+
+        if(!canDownload) {
+            throw new AccessDeniedException("Access denied");
+        }
+
         Document document = documentsService.findById(id);
+
 
         if (document == null) {
             throw new FileNotFoundException("File not found in db");
         }
 
-
-        Path path = Paths.get(ROOT_DIRECTORY + document.getPath());
+        Path path = FileUtil.relativeToAbsolute(document.getPath());
 
         if(Files.exists(path)) {
 

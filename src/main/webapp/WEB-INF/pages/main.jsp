@@ -3,10 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-    <jsp:include page="leyer/base.jsp"></jsp:include>
+    <jsp:include page="layer/base.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="leyer/header.jsp"></jsp:include>
+<jsp:include page="layer/header.jsp"></jsp:include>
 
 <div class="container" id="wrapper">
     <div class="row">
@@ -51,7 +51,7 @@
         </div>
     </div>
 </div>
-<jsp:include page="leyer/footer.jsp"></jsp:include>
+<jsp:include page="layer/footer.jsp"></jsp:include>
 
 </body>
 </html>

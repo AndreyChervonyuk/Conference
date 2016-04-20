@@ -3,11 +3,11 @@
 <head>
 <title>Login Page</title>
 <head>
-	<jsp:include page="leyer/base.jsp"></jsp:include>
+	<jsp:include page="layer/base.jsp"></jsp:include>
 </head>
 
 <body>
-	<jsp:include page="leyer/header.jsp"></jsp:include>
+	<jsp:include page="layer/header.jsp"></jsp:include>
 
 
 	<div class="container">

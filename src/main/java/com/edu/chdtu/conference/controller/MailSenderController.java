@@ -1,6 +1,6 @@
 package com.edu.chdtu.conference.controller;
 
-import com.edu.chdtu.conference.model.dto.MailDto;
+import com.edu.chdtu.conference.dto.MailDto;
 import com.edu.chdtu.conference.service.impl.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

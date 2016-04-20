@@ -4,6 +4,7 @@ import com.edu.chdtu.conference.dao.CommentsDao;
 import com.edu.chdtu.conference.dao.NotificationDao;
 import com.edu.chdtu.conference.dao.UserDao;
 import com.edu.chdtu.conference.dao.core.GenericDao;
+import com.edu.chdtu.conference.dto.NotificationCommentDto;
 import com.edu.chdtu.conference.model.Comment;
 import com.edu.chdtu.conference.model.Notification;
 import com.edu.chdtu.conference.model.NotificationComment;
@@ -35,12 +36,12 @@ public class CommentsServiceImpl extends GenericServiceImpl<Comment, Integer> im
     }
 
     @Override
-    public Comment create(Integer notificationId, String text) {
-        Notification notification = notificationDao.findById(notificationId);
+    public Comment createNotificationComment(NotificationCommentDto notificationCommentDto) {
+        Notification notification = notificationDao.findById(notificationCommentDto.getEventId(), notificationCommentDto.getNotificationId());
 
         Comment comment = new Comment(
                 userDao.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()),
-                text,
+                notificationCommentDto.getText(),
                 new Date()
         );
 
@@ -53,7 +54,6 @@ public class CommentsServiceImpl extends GenericServiceImpl<Comment, Integer> im
         notificationComments.add(notificationComment);
         notification.setComments(notificationComments);
 
-        commentsDao.create(comment);
         notificationDao.update(notification);
 
         return comment;
