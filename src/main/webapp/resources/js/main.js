@@ -54,7 +54,7 @@
 
         setPermission : function() {
             this.permission.leaveComments = permissionUtil.hasPermission('Notifications', 'create_notification_comments');
-            this.permission.viewComments = permissionUtil.hasPermission('Notifications', 'view_comments');
+            this.permission.viewComments = permissionUtil.hasPermission('Notifications', 'view_notification_comments');
             this.permission.sendEmail = permissionUtil.hasPermission('Notifications', 'send_email')
         },
 
@@ -79,7 +79,8 @@
             $.ajax({
                 type: 'POST',
                 url: '/comments/notification',
-                data: data,
+                data: JSON.stringify(data),
+                contentType: "application/json",
                 beforeSend:function(xhr){
                     xhr.setRequestHeader(header, token);
                 },
@@ -158,11 +159,18 @@
                 beforeSend:function(xhr){
                     xhr.setRequestHeader(header, token);
                 },
-                success :  function() {
-                    console.log("Letter sent");
+                statusCode:{
+                    200: function(){
+                        alert("Letter sent");
+                        $("form#notification-form")[0].reset()
+                        $("#fileAttachmentList").html("")
+
+                    },
+                    500: function(){
+                        alert("Error")
+                    }
                 }
             })
-
         }
 
     };
@@ -365,7 +373,7 @@
             var members = [];
             var view = [];
             data.forEach(function(value) {
-                if(value.userGroup.name === 'WAIT') {
+                if(value.userGroup.name === 'NOT_CONFIRMED') {
                     view.push(value);
                 } else {
                     members.push(value);

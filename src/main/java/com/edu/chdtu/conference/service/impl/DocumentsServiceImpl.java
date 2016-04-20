@@ -8,12 +8,14 @@ import com.edu.chdtu.conference.model.Document;
 import com.edu.chdtu.conference.model.Image;
 import com.edu.chdtu.conference.model.User;
 import com.edu.chdtu.conference.service.DocumentsService;
+import com.edu.chdtu.conference.service.EventPermissionService;
 import com.edu.chdtu.conference.service.UserService;
 import com.edu.chdtu.conference.service.core.GenericServiceImpl;
 import com.edu.chdtu.conference.util.ImageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartResolver;
@@ -32,12 +34,6 @@ import java.util.Date;
 public class DocumentsServiceImpl extends GenericServiceImpl<Document, Integer> implements DocumentsService {
 
     private DocumentsDao documentsDao;
-    private UserDao userDao;
-    private ImageValidator imageValidator;
-    private ImageDao imageDao;
-
-    private static String UPLOAD_LOCATION = "C:\\temp\\";
-
 
     @Autowired
     public DocumentsServiceImpl(GenericDao<Document, Integer> genericDao) {

@@ -12,10 +12,10 @@ public class Notification {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "header")
+    @Column(name = "header", nullable = false)
     private String header;
 
-    @Column(name = "text")
+    @Column(name = "text", nullable = false)
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -5,3 +5,5 @@
     </div>
   </div>
 </footer>
+<script src="/resources/js/lightbox.js"></script>
+

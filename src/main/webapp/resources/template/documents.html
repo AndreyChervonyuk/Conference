@@ -6,13 +6,13 @@
 
     <script id="event-document-Tmpl" type="text/x-jquery-tmpl">
         {%each documents %}
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <a href="#">
-                    <img class="{%= file.getExtension(name) %}-file-icon" alt="">
+                    <img class="{%= file.getExtension(document.name) %}-file-icon" alt="">
                 </a>
-                <h5>
-                    {%= name %}
-                    <a href="/files/{%= id %}">
+                <h5 style="overflow: hidden">
+                    {%= document.name %}
+                    <a href="/files/{%= document.id %}?eventId={%= currentEventId %}">
                         <span class="glyphicon glyphicon-download-alt"></span>
                     </a>
                 </h5>

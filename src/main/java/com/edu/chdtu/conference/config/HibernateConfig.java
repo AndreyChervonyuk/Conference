@@ -17,7 +17,6 @@ import java.util.Properties;
 @ComponentScan({"com.edu.chdtu.conference.*"})
 @PropertySources({
         @PropertySource("classpath:app.properties")
-
 })
 public class HibernateConfig {
 

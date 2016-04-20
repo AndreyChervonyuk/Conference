@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <jsp:include page="leyer/base.jsp"></jsp:include>
+    <jsp:include page="layer/base.jsp"></jsp:include>
 </head>
 <body onload="file.setUpListeners()">
-<jsp:include page="leyer/header.jsp"></jsp:include>
+<jsp:include page="layer/header.jsp"></jsp:include>
 
 <div class="container">
     <div class="row">

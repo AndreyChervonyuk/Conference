@@ -5,10 +5,10 @@
 
 <html>
 <head>
-  <jsp:include page="leyer/base.jsp"></jsp:include>
+  <jsp:include page="layer/base.jsp"></jsp:include>
 </head>
 <body onload="permissionUtil.loadDefault()">
-<jsp:include page="leyer/header.jsp"></jsp:include>
+<jsp:include page="layer/header.jsp"></jsp:include>
 
 <div class="container">
     <div class="row">
@@ -20,33 +20,33 @@
                             <div class="form-group">
                                 <label for="inputName" class="col-sm-2 control-label">Event name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="name" class="form-control" id="inputName" placeholder="Event name" maxlength="10">
+                                    <input type="text" name="name" class="form-control" id="inputName" placeholder="Event name" maxlength="10" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputDescription" class="col-sm-2 control-label">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea rows="2"  name="description" class="form-control" id="inputDescription" placeholder="Description"></textarea>
+                                    <textarea rows="2"  name="description" class="form-control" id="inputDescription" placeholder="Description" required></textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputInformation" class="col-sm-2 control-label">Information</label>
                                 <div class="col-sm-10">
-                                    <textarea rows="5" name="information" class="form-control" id="inputInformation" placeholder="Information"></textarea>
+                                    <textarea rows="5" name="information" class="form-control" id="inputInformation" placeholder="Information" required></textarea>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputStartDate" class="col-sm-2 control-label">Start date</label>
                                 <div class="col-sm-4">
-                                    <input type="date" name="startDate" id="inputStartDate" class="form-control">
+                                    <input type="date" name="startDate" id="inputStartDate" class="form-control" required>
                                 </div>
 
                                 <label for="inputFinishDate" class="col-sm-2 control-label">Finish date</label>
                                 <div class="col-sm-4">
-                                    <input type="date" name="finishDate" id="inputFinishDate" class="form-control">
+                                    <input type="date" name="finishDate" id="inputFinishDate" class="form-control" required>
                                 </div>
                             </div>
 
@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <label for="inputAddress" class="col-sm-2 control-label">Address</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="address" id="inputAddress" class="form-control">
+                                    <input type="text" name="address" id="inputAddress" class="form-control" required>
                                 </div>
                             </div>
                         </form>
@@ -80,7 +80,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="button" class="btn btn-success" id="create-event">Submit</button>
+                                <button type="submit" class="btn btn-success" id="create-event">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -96,10 +96,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="myModalLabel">My documents</h4>
             </div>
-            <a href="/documents/upload" class="btn btn-default">Upload new file</a>
+            <a href="/files/upload" class="btn btn-default">Upload new file</a>
             <div class="modal-body" id="userDocumentsList">
             </div>
-            <button type="button" class="btn btn-primary" id="load-more-documents" onclick="file.attachListener()">Load more</button>
+            <button type="button" class="btn btn-primary" id="load-more-documents">Load more</button>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
@@ -111,7 +111,8 @@
 
 <script id="userDocumentsTmpl" type="text/x-jquery-tmpl">
         <tr>
-            <td><img src={%= path %} height="128" width="128" alt=""/></td>
+            <td>
+            <img src={%= path %} height="128" width="128" alt=""/></td>
             <td class="file-name">
                 {%= name%}
                 <span class="glyphicon glyphicon-plus-sign select-poster" id="file-id-{%= id %}" ></span>

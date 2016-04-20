@@ -1,4 +1,4 @@
-package com.edu.chdtu.conference.service.security;
+package com.edu.chdtu.conference.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

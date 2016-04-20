@@ -19,6 +19,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,17 +28,21 @@ public class UserDetailsServiceImpl extends GenericServiceImpl<User, String> imp
 
 	private UserDao userDao;
 	private RoleDao roleDao;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public UserDetailsServiceImpl(GenericDao<User, String> genericDao,
-								  RoleDao roleDao) {
+								  RoleDao roleDao,
+								  PasswordEncoder passwordEncoder) {
 		super(genericDao);
 		this.userDao = (UserDao) genericDao;
 		this.roleDao = roleDao;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
 	public String create(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setEnabled(true);
 		Set<UserRole> userRoles = new HashSet<>();
 		UserRole userRole = new UserRole(user, roleDao.findBy("name", "ROLE_USER"));

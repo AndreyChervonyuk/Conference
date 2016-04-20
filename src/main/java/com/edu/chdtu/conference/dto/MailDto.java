@@ -1,49 +1,43 @@
-package com.edu.chdtu.conference.model.dto;
+package com.edu.chdtu.conference.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class NotificationDto {
+public class MailDto {
 
     private String subject;
     private String text;
     private Integer eventId;
 
+    @JsonProperty("setTo[]")
+    private String[] setTo;
+
     @JsonProperty("fileAttachment[]")
     private Integer[] fileAttachment;
 
-    private String sendMail;
-
-    public NotificationDto() {
+    public MailDto() {
     }
 
-    public NotificationDto(String subject, String text, Integer eventId) {
+    public MailDto(String subject, String text, Integer eventId, String[] setTo, Integer[] fileAttachment) {
         this.subject = subject;
         this.text = text;
         this.eventId = eventId;
-    }
-
-    public NotificationDto(String subject, String text, Integer[] fileAttachment, Integer eventId) {
-        this.subject = subject;
-        this.text = text;
+        this.setTo = setTo;
         this.fileAttachment = fileAttachment;
-        this.eventId = eventId;
     }
 
-
-    public NotificationDto(String subject, String text, Integer[] fileAttachment, Integer eventId, String sendMail) {
+    public MailDto(String subject, String text, Integer eventId, String[] setTo) {
         this.subject = subject;
         this.text = text;
+        this.eventId = eventId;
+        this.setTo = setTo;
+    }
+
+    public MailDto(String subject, String text, Integer eventId, Integer[] fileAttachment) {
+        this.subject = subject;
+        this.text = text;
+        this.eventId = eventId;
         this.fileAttachment = fileAttachment;
-        this.eventId = eventId;
-        this.sendMail = sendMail;
-    }
-
-    public NotificationDto(String subject, String text, Integer eventId, String sendMail) {
-        this.subject = subject;
-        this.text = text;
-        this.eventId = eventId;
-        this.sendMail = sendMail;
     }
 
     public String getSubject() {
@@ -62,6 +56,14 @@ public class NotificationDto {
         this.text = text;
     }
 
+    public String[] getSetTo() {
+        return setTo;
+    }
+
+    public void setSetTo(String[] setTo) {
+        this.setTo = setTo;
+    }
+
     public Integer[] getFileAttachment() {
         return fileAttachment;
     }
@@ -76,13 +78,5 @@ public class NotificationDto {
 
     public void setEventId(Integer eventId) {
         this.eventId = eventId;
-    }
-
-    public String getSendMail() {
-        return sendMail;
-    }
-
-    public void setSendMail(String sendMail) {
-        this.sendMail = sendMail;
     }
 }

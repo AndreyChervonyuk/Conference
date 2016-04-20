@@ -3,6 +3,7 @@ package com.edu.chdtu.conference.controller;
 
 
 import com.edu.chdtu.conference.model.Document;
+import com.edu.chdtu.conference.model.Image;
 import com.edu.chdtu.conference.model.Member;
 import com.edu.chdtu.conference.model.User;
 import com.edu.chdtu.conference.service.UserService;
@@ -41,6 +42,13 @@ public class UserController {
 	}
 
     @PreAuthorize("isAuthenticated()")
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public User getAbout(Principal principal) {
+        return userService.findByEmail(principal.getName());
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     public String getAccountPage() {
         return "account";
@@ -58,6 +66,13 @@ public class UserController {
     @ResponseBody
     public Set<Document> getMyDocuments(Principal principal) {
         return userService.findById(principal.getName()).getDocuments();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/images", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<Image> getMyImages(Principal principal) {
+        return userService.findById(principal.getName()).getImages();
     }
 
 }

@@ -19,12 +19,12 @@ public class NotificationDocument {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "document_id")
-    private Document document;
+    private EventDocument document;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "notification_id")
     private Notification notification;
 
@@ -32,12 +32,12 @@ public class NotificationDocument {
     public NotificationDocument() {
     }
 
-    public NotificationDocument(Document document, Notification notification) {
+    public NotificationDocument(EventDocument document, Notification notification) {
         this.document = document;
         this.notification = notification;
     }
 
-    public NotificationDocument(String description, Document document, Notification notification) {
+    public NotificationDocument(String description, EventDocument document, Notification notification) {
         this.description = description;
         this.document = document;
         this.notification = notification;
@@ -59,11 +59,11 @@ public class NotificationDocument {
         this.description = description;
     }
 
-    public Document getDocument() {
+    public EventDocument getDocument() {
         return document;
     }
 
-    public void setDocument(Document document) {
+    public void setDocument(EventDocument document) {
         this.document = document;
     }
 

@@ -3,10 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-    <jsp:include page="leyer/base.jsp"></jsp:include>
+    <jsp:include page="layer/base.jsp"></jsp:include>
 </head>
 <body>
-    <jsp:include page="leyer/header.jsp"></jsp:include>
+    <jsp:include page="layer/header.jsp"></jsp:include>
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -19,7 +19,6 @@
 
                     <div class="panel-body">
                         <form role="form" id="registration-form">
-                            <!-- Name -->
                             <div class="row">
                                 <div class="col-sm-6 form-group">
                                     <div class="form-group">
@@ -40,7 +39,6 @@
                                 </div>
                             </div>
 
-                            <!-- Email -->
                             <div class="form-group">
                                 <label for="email" class="control-label">Email <span class="required-field">*</span></label>
                                 <div class="has-feedback">
@@ -48,18 +46,6 @@
                                 </div>
                             </div>
 
-                            <div class="alerts">
-                                <div class="alert alert-danger">
-                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
-                                    <span id="alert-danger-text">Error create account</span>
-                                </div>
-                                <div class="alert alert-success">
-                                    <a href="#" class="close" data-dismiss="alert">&times;</a>
-                                    <span id="alert-text">Account created</span>
-                                </div>
-                            </div>
-
-                            <!-- Passwords -->
                             <div class="row">
                                 <div class="col-sm-6 form-group">
                                     <label for="password1" class="control-label">Password <span class="required-field">*</span></label>
@@ -77,7 +63,6 @@
                                 </div>
                             </div>
 
-                            <!-- Birthday -->
                             <div class="form-group">
                                 <label class="control-label">Birthday</label>
                                 <div class="row">
@@ -119,14 +104,12 @@
                                 </div>
                             </div>
 
-                            <!-- Create button -->
                             <div class="form-group text-center">
                                 <button type="submit" class="btn btn-primary" id="btn-create-account">Create Account</button>
                             </div>
                         </form>
                     </div>
 
-                    <!-- Form footer -->
                     <div class="panel-footer">
                         <span class="required-field">*</span> - required field
                     </div>
@@ -134,7 +117,6 @@
             </div>
         </div>
     </div>
-<jsp:include page="../leyers/footer.jsp"></jsp:include>
 
 <script>
     $(document).ready( function() {
@@ -168,19 +150,17 @@
                     },
                     statusCode:{
                         200: function(){
-                            $('.alert-success').show()
+                            alert("Account created")
                         },
                         500: function(){
-                            $('.alert-danger').show()
+                            alert("Error create account")
                         }
                     }
                 })
             } else {
-                $('#alert-danger-text').text("Passwords don't match");
-                $('.alert-danger').show()
+                alert("Passwords don't match");
             }
         });
-
     })
 </script>
 

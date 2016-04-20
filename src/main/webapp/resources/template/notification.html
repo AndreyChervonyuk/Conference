@@ -2,21 +2,20 @@
 <div class="tab-pane fade" id="notification">
     <p>
         <a class="btn btn-primary" role="button" data-toggle="collapse" href="#create-notification" aria-expanded="false">
-            Create notification
+            Create Message
         </a>
     </p>
 
 
     <div class="collapse" id="create-notification">
         <div class="well">
-            <h4>Create Notification:</h4>
             <form role="form" id="notification-form">
                 <div class="form-group">
                     <p>
                         <label for="subject" class="control-label">Subject</label>
-                        <input type="text" class="form-control" name="subject" id="subject">
+                        <input type="text" class="form-control" name="subject" id="subject" required>
                         <label for="text" class="control-label">Text</label>
-                        <textarea class="form-control" rows="5" name="text" id="text"></textarea>
+                        <textarea class="form-control" rows="5" name="text" id="text" required></textarea>
                     </p>
 
                     <p>
@@ -87,10 +86,10 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title" id="myModalLabel">My documents</h4>
                 </div>
-                <a href="/documents/upload" class="btn btn-default">Upload new file</a>
+                <a href="/files/upload" class="btn btn-default">Upload new file</a>
                 <div class="modal-body" id="userDocumentsList">
                 </div>
-                <button type="button" class="btn btn-primary" id="load-more-documents" onclick="file.attachListener()">Load more</button>
+                <button type="button" class="btn btn-primary" id="load-more-documents">Load more</button>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
@@ -108,7 +107,7 @@
 
                     <div class="media">
                         <a class="pull-left" href="#">
-                            <img class="media-object" src="/resources/image/default-avatar-icon.png" alt="">
+                            <img class="media-object" src="/resources/images/default-avatar-icon.png" alt="">
                         </a>
 
                         <div class="media-body">
@@ -157,7 +156,7 @@
         {%if !$.isEmptyObject(notification.documents) %}
 
             <div class="panel panel-info">
-                <div class="panel-heading">Attach documents</div>
+                <div class="panel-heading">File attachment</div>
                 <div class="panel-body">
                     <div class="row">
                         {%tmpl({documents : notification.documents}) notificationDocumentsTmpl %}
@@ -215,12 +214,12 @@
         {%each documents %}
             <div class="col-md-2">
                 <a href="#">
-                    <img id="image" class="{%= file.getExtension(document.name) %}-file-icon" alt="">
+                    <img id="image" class="{%= file.getExtension(document.document.name) %}-file-icon" alt="">
                 </a>
                 <h5>
-                    {%= document.name %}
-                    <a href="/files/{%= document.id %}">
-                    <a href="/files/{%= document.id %}">
+                    {%= document.document.name %}
+                    <a href="/files/{%= document.document.id %}?eventId={%= currentEventId %}">
+                    <a href="/files/{%= document.document.id %}?eventId={%= currentEventId %}">
                         <span class="glyphicon glyphicon-download-alt"></span>
                     </a>
                 </h5>
@@ -231,7 +230,7 @@
     <script id="notificationCommentsTmpl" type="text/x-jquery-tmpl">
         <div class="media">
             <a class="pull-left" href="#">
-                <img class="media-object" src="/resources/image/default-avatar-icon.png" alt="">
+                <img class="media-object" src="/resources/images/default-avatar-icon.png" alt="">
             </a>
             <div class="media-body">
                 <h4 class="media-heading">{%= comments.author.name %}  {%= comments.author.surname %}
@@ -244,7 +243,7 @@
                     <div>
                         <p>
                         <a href="#">
-                            <span class="glyphicon glyphicon-comment">reply</span>
+                            <span class="glyphicon glyphicon-comment" id="reply-{%= comments.id %}">reply</span>
                          </a>
                          </p>
                     </div>
@@ -266,6 +265,7 @@
             <form role="form" id="comment-form-{%= notificationId %}">
                 <div class="form-group">
                     <input type="hidden" value="{%= notificationId %}" name="notificationId">
+                    <input type="hidden" name="reply">
                     <textarea class="form-control" rows="3" name="text"></textarea>
                 </div>
                 <button type='button' class="btn btn-primary" id="comment-btn" onclick="notificationUtil.addComment('{%= notificationId %}')">Submit</button>

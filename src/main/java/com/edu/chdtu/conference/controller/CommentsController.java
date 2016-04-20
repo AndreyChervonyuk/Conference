@@ -1,6 +1,8 @@
 package com.edu.chdtu.conference.controller;
 
+import com.edu.chdtu.conference.dto.NotificationCommentDto;
 import com.edu.chdtu.conference.model.Comment;
+import com.edu.chdtu.conference.model.Notification;
 import com.edu.chdtu.conference.model.NotificationComment;
 import com.edu.chdtu.conference.service.CommentsService;
 import com.edu.chdtu.conference.service.NotificationService;
@@ -27,12 +29,10 @@ public class CommentsController {
         return notificationService.findById(eventId, id).getComments();
     }
 
-    @PreAuthorize("hasPermission(#eventId, 'create_notification_comments')")
+    @PreAuthorize("hasPermission(#notificationCommentDto.eventId, 'create_notification_comments')")
     @RequestMapping(value = "/notification", method = RequestMethod.POST)
-    public Comment createNotificationComment(@RequestParam Integer notificationId,
-                                             @RequestParam String text,
-                                             @RequestParam Integer eventId) {
-        return commentsService.create(notificationId, text);
+    public Comment createNotificationComment(@RequestBody NotificationCommentDto notificationCommentDto) {
+        return commentsService.createNotificationComment(notificationCommentDto);
     }
 
 }

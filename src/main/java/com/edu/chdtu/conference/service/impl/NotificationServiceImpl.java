@@ -1,13 +1,9 @@
 package com.edu.chdtu.conference.service.impl;
 
-import com.edu.chdtu.conference.dao.DocumentsDao;
-import com.edu.chdtu.conference.dao.EventDao;
-import com.edu.chdtu.conference.dao.NotificationDao;
-import com.edu.chdtu.conference.dao.UserDao;
+import com.edu.chdtu.conference.dao.*;
 import com.edu.chdtu.conference.dao.core.GenericDao;
-import com.edu.chdtu.conference.model.Notification;
-import com.edu.chdtu.conference.model.NotificationDocument;
-import com.edu.chdtu.conference.model.dto.NotificationDto;
+import com.edu.chdtu.conference.model.*;
+import com.edu.chdtu.conference.dto.NotificationDto;
 import com.edu.chdtu.conference.service.NotificationService;
 import com.edu.chdtu.conference.service.core.GenericServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,38 +19,51 @@ public class NotificationServiceImpl extends GenericServiceImpl<Notification, In
     private UserDao userDao;
     private EventDao eventDao;
     private DocumentsDao documentsDao;
+    private EventDocumentsDao eventDocumentsDao;
 
     @Autowired
     public NotificationServiceImpl(GenericDao<Notification, Integer> genericDao,
                                    UserDao userDao,
                                    EventDao eventDao,
-                                   DocumentsDao documentsDao) {
+                                   DocumentsDao documentsDao,
+                                   EventDocumentsDao eventDocumentsDao) {
         super(genericDao);
         this.notificationDao = (NotificationDao) genericDao;
         this.userDao = userDao;
         this.eventDao = eventDao;
         this.documentsDao = documentsDao;
+        this.eventDocumentsDao = eventDocumentsDao;
     }
 
-    //TODO change set documents
     @Override
     public Notification create(NotificationDto notificationDto) {
+        Event event = eventDao.findById(notificationDto.getEventId());
 
         Notification notification = new Notification(
                 notificationDto.getSubject(),
                 notificationDto.getText(),
                 userDao.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()),
                 new Date(),
-                eventDao.findById(notificationDto.getEventId())
+                event
         );
 
 
         if(notificationDto.getFileAttachment() != null) {
             for (Integer documentsId : notificationDto.getFileAttachment()) {
-                notification.getDocuments().add(new NotificationDocument(
-                        documentsDao.findById(documentsId),
-                        notification
-                ));
+                Document document = documentsDao.findById(documentsId);
+
+                if (document != null) {
+                    EventDocument eventDocument = eventDocumentsDao.findBy("document.id", document.getId());
+
+                    if (eventDocument == null) {
+                        eventDocument = new EventDocument(document, event);
+                    }
+
+                    notification.getDocuments().add(new NotificationDocument(
+                            eventDocument,
+                            notification
+                    ));
+                }
             }
         }
 

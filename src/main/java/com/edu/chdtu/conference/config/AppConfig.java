@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
@@ -18,15 +19,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import javax.servlet.MultipartConfigElement;
+import java.io.File;
 import java.util.List;
 
 @Configuration
 @EnableWebMvc
 @Import({ SecurityConfig.class, HibernateConfig.class })
+@PropertySources({
+		@PropertySource("classpath:app.properties")
+})
 public class AppConfig extends WebMvcConfigurerAdapter {
 
-	@Autowired
-	Environment environment;
+	@Value("#{systemProperties['user.home']}")
+	private String homeLocation;
 
 	@Bean
 	public InternalResourceViewResolver viewResolver() {
@@ -39,13 +45,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("//**").addResourceLocations("//");
-		registry.addResourceHandler("/user/**").addResourceLocations("file:///C:/temp/user/");
-		registry.addResourceHandler("/posters/**").addResourceLocations("file:///C:/temp/posters/");
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/user/**").addResourceLocations("file:///" + homeLocation + File.separator);
 	}
 
 	@Bean
-	public PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
@@ -78,4 +83,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return new StandardServletMultipartResolver();
 	}
 
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
 }

@@ -20,7 +20,7 @@ public class Comment {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @Column(name = "text")
+    @Column(name = "text", nullable = false)
     private String text;
 
     @Column(name = "date")

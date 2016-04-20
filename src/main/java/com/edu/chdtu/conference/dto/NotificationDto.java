@@ -1,36 +1,49 @@
-package com.edu.chdtu.conference.model.dto;
+package com.edu.chdtu.conference.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MailDto {
+public class NotificationDto {
 
     private String subject;
     private String text;
     private Integer eventId;
 
-    @JsonProperty("setTo[]")
-    private String[] setTo;
-
     @JsonProperty("fileAttachment[]")
     private Integer[] fileAttachment;
 
-    public MailDto() {
+    private String sendMail;
+
+    public NotificationDto() {
     }
 
-    public MailDto(String subject, String text, Integer eventId, String[] setTo, Integer[] fileAttachment) {
+    public NotificationDto(String subject, String text, Integer eventId) {
         this.subject = subject;
         this.text = text;
         this.eventId = eventId;
-        this.setTo = setTo;
+    }
+
+    public NotificationDto(String subject, String text, Integer[] fileAttachment, Integer eventId) {
+        this.subject = subject;
+        this.text = text;
         this.fileAttachment = fileAttachment;
+        this.eventId = eventId;
     }
 
-    public MailDto(String subject, String text, Integer eventId, String[] setTo) {
+
+    public NotificationDto(String subject, String text, Integer[] fileAttachment, Integer eventId, String sendMail) {
+        this.subject = subject;
+        this.text = text;
+        this.fileAttachment = fileAttachment;
+        this.eventId = eventId;
+        this.sendMail = sendMail;
+    }
+
+    public NotificationDto(String subject, String text, Integer eventId, String sendMail) {
         this.subject = subject;
         this.text = text;
         this.eventId = eventId;
-        this.setTo = setTo;
+        this.sendMail = sendMail;
     }
 
     public String getSubject() {
@@ -49,14 +62,6 @@ public class MailDto {
         this.text = text;
     }
 
-    public String[] getSetTo() {
-        return setTo;
-    }
-
-    public void setSetTo(String[] setTo) {
-        this.setTo = setTo;
-    }
-
     public Integer[] getFileAttachment() {
         return fileAttachment;
     }
@@ -71,5 +76,13 @@ public class MailDto {
 
     public void setEventId(Integer eventId) {
         this.eventId = eventId;
+    }
+
+    public String getSendMail() {
+        return sendMail;
+    }
+
+    public void setSendMail(String sendMail) {
+        this.sendMail = sendMail;
     }
 }

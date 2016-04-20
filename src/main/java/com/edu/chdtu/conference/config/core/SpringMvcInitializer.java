@@ -1,12 +1,19 @@
 package com.edu.chdtu.conference.config.core;
 
 import com.edu.chdtu.conference.config.AppConfig;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
 public class SpringMvcInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+	private static final String LOCATION = System.getProperty("user.home");
+	private static final long MAX_FILE_SIZE = 5242880;
+	private static final long MAX_REQUEST_SIZE = 20971520;
+	private static final int FILE_SIZE_THRESHOLD = 0;
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
@@ -29,12 +36,7 @@ public class SpringMvcInitializer extends AbstractAnnotationConfigDispatcherServ
 	}
 
 	private MultipartConfigElement getMultipartConfigElement() {
-		return new MultipartConfigElement( LOCATION, MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
+		return new MultipartConfigElement(LOCATION, MAX_FILE_SIZE, MAX_REQUEST_SIZE, FILE_SIZE_THRESHOLD);
 	}
-
-	private static final String LOCATION = "C:/temp/";
-	private static final long MAX_FILE_SIZE = 5242880;
-	private static final long MAX_REQUEST_SIZE = 20971520;
-	private static final int FILE_SIZE_THRESHOLD = 0;
 
 }

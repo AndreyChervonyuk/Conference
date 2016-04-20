@@ -42,6 +42,9 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Document> documents = new HashSet<>();
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Image> images = new HashSet<>();
+
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Member> member = new HashSet<>();
@@ -129,4 +132,11 @@ public class User {
 		this.member = member;
 	}
 
+	public Set<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<Image> images) {
+		this.images = images;
+	}
 }
